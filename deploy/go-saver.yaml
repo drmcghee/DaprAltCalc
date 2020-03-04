@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: saveapp
+  labels:
+    app: save
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: save
+  template:
+    metadata:
+      labels:
+        app: save
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/id: "saveapp"
+        dapr.io/port: "6001"
+    spec:
+      containers:
+      - name: save
+        image: daprdavidmcg.azurecr.io/distributed-calculator-save:latest
+        ports:
+        - containerPort: 6001
+        imagePullPolicy: Always
