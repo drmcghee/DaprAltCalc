@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 const port = 3000;
 
 app.post('/sample-topic', (req, res) => {
-    console.log("Recall from Azure Storage!");
+    console.log("Recall from Azure Storage!  << not possible :(");
     console.log(req.body);
     res.status(200).send();
 });

@@ -21,6 +21,13 @@ type Operands struct {
     OperandOne float32 `json:"operandOne,string"`
     OperandTwo float32 `json:"operandTwo,string"`
 }
+type DaprBindingRequest struct {
+	Data interface{} `json:"data"`
+}
+type Data struct {
+    Saved string `json:"saved"`
+}
+
 
 func save(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
@@ -36,15 +43,21 @@ func save(w http.ResponseWriter, r *http.Request) {
 	//dapr_port = os.getenv("DAPR_HTTP_PORT", 3500)
 	//dapr_url = "http://localhost:{}/v1.0/bindings/sample-topic".format(dapr_port)
 
+	d:=Data{Saved:fmt.Sprintf("%f",operands.OperandTwo)}
 
-	// emcode or marshal operands back to json
-	jsonoperands, err := json.Marshal(operands)
+	// encode or marshal operands back to json
+	daprreq := DaprBindingRequest{
+        Data: d,
+	}
+
+	b, err := json.Marshal(&daprreq)
 	if err != nil {
 		panic(err)
 	}
 
-	fmt.Printf("http new request with json body: %v\n",  string(jsonoperands))
-	req, err :=  http.NewRequest("POST", "http://localhost:3500/v1.0/bindings/storage", bytes.NewBuffer(jsonoperands))
+	fmt.Printf("http new request with json body: %v\n",  string(b))
+
+	req, err :=  http.NewRequest("POST", "http://localhost:3500/v1.0/bindings/storage", bytes.NewBuffer(b))
 	if err != nil {
         fmt.Println("Error is req: ", err)
 	}
@@ -54,9 +67,10 @@ func save(w http.ResponseWriter, r *http.Request) {
 
     resp, err := client.Do(req)
 	if err != nil {
-		fmt.Printf("http.Do() error: %v\n", err)
+		fmt.Printf("binding response post error: %v\n", err)
 		return
 	}
+	fmt.Println("binding response post status: ", resp.Status)
 	defer resp.Body.Close()
 
 	data, err := ioutil.ReadAll(resp.Body)
@@ -65,7 +79,7 @@ func save(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Printf("read binding resp.Body successfully:\n%v\n", string(data))
+	fmt.Printf("read binding response Body successfully as:\n%v\n", string(data))
 	
 
 	// **** End Binding
