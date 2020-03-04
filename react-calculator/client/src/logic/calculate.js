@@ -91,7 +91,7 @@ export default async function calculate(obj, buttonName) {
 
   // save does something like equal - uses the existing total
   if (buttonName === "M+") {
-    const total = await operate(obj.total, obj.next, obj.operation);
+    const total = await operate(obj.total, obj.next, "M+");
     return {
       total,
       next: null,

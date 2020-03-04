@@ -8,4 +8,4 @@ spec:
   - name: "redisHost"
     value: "redis-master:6379"
   - name: "redisPassword"
-    value: "C6KHimWAnz"
+    value: "6et2mT3Pyn"

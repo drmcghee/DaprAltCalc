@@ -1,4 +1,4 @@
-# Kubernetes Distributed Calculator
+# Kubernetes Distributed Calculator - Alternative (readme to be updated from dapr.io sample)
 
 This sample shows method invocation and state persistent capabilities of Dapr through a distributed calculator where each operation is powered by a different service written in a different language/framework:
 
