@@ -1,0 +1,13 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: storage
+spec:
+  type: bindings.azure.blobstorage
+  metadata:
+  - name: storageAccount
+    value: daprcalc
+  - name: storageAccessKey
+    value: c6OntHMZl14sa8MWReWC/gQ8D7+9kvMLPuIWS3JFqxh4OlamcwQzvnNSqFN7Ate87CqGTjlL1hTH2nnY6PNvOw==
+  - name: container
+    value: saves
