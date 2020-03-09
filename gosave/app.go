@@ -22,7 +22,7 @@ type Operands struct {
     OperandTwo float32 `json:"operandTwo,string"`
 }
 type DaprBindingRequest struct {
-	Data interface{} `json:"data"`
+	Operands interface{} `json:"data"`
 }
 type Data struct {
     Saved string `json:"saved"`
@@ -43,11 +43,11 @@ func save(w http.ResponseWriter, r *http.Request) {
 	//dapr_port = os.getenv("DAPR_HTTP_PORT", 3500)
 	//dapr_url = "http://localhost:{}/v1.0/bindings/sample-topic".format(dapr_port)
 
-	d:=Data{Saved:fmt.Sprintf("%f",operands.OperandTwo)}
+	//d:=Data{Saved:fmt.Sprintf("%f",operands.OperandTwo)}
 
 	// encode or marshal operands back to json
 	daprreq := DaprBindingRequest{
-        Data: d,
+        Operands: operands,
 	}
 
 	b, err := json.Marshal(&daprreq)
